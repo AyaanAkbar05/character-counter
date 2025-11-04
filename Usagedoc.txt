@@ -1,0 +1,28 @@
+import { CharacterCounter } from './components/CharacterCounter/CharacterCounter';
+
+function App() {
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <CharacterCounter minWords={100} maxWords={500} targetReadingTime={3} />
+    </div>
+  );
+}
+
+export default App;
+
+
+CharacterCounter is rendered in the center of the page.
+
+Users type text into the TextInput area.
+
+CharacterCounter calculates:
+
+characterCount
+
+wordCount
+
+readingTime (based on ~200 words per minute)
+
+StatsDisplay shows the statistics in real time.
+
+Word goal and reading time targets are displayed below the stats.
