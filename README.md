@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# Reflection Questions:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+State updates: Used useState to track text and stats, updating both in the onChange handler so changes reflect instantly.
 
-Currently, two official plugins are available:
+Reading time: Estimated using average reading speed (~200 words per minute) for realistic results.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Responsive UI: Kept calculations lightweight and synchronous so updates happen smoothly even during fast typing.
 
-## React Compiler
+Challenges: Handling edge cases like empty or extra spaces and ensuring counts stayed accurate without slowing the app.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Character Counter Application
+Overview
 
-## Expanding the ESLint configuration
+This project is a React TypeScript application that demonstrates state management, event handling, and component communication using React hooks.
+It allows users to input text and view real-time statistics such as character count, word count, and estimated reading time.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Components
+1. TextInput
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Purpose: Captures user input.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Props:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+onTextChange: Callback function triggered when the text changes.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+placeholder (optional): Placeholder text for the textarea.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+initialValue (optional): Sets the initial text value.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Usage: Used by the parent component to receive live text updates.
+
+2. StatsDisplay
+
+Purpose: Displays calculated text statistics.
+
+Props:
+
+stats: Object containing characterCount, wordCount, and readingTime.
+
+showReadingTime (optional): Controls whether reading time is displayed.
+
+Usage: Receives statistics from the parent and renders them in a readable format.
+
+3. CharacterCounter
+
+Purpose: Combines TextInput and StatsDisplay, manages state, and performs calculations.
+
+Props:
+
+minWords (optional): Minimum word goal.
+
+maxWords (optional): Maximum word goal.
+
+targetReadingTime (optional): Target reading duration (in minutes).
+
+Usage: Acts as the main container component responsible for state updates and rendering child components.
+
+How It Works
+
+The user types text in the TextInput component.
+
+The onTextChange callback sends the text to the CharacterCounter.
+
+The parent component calculates:
+
+Number of characters
+
+Number of words
+
+Estimated reading time
+
+Updated statistics are passed to the StatsDisplay, which renders them in real time.
